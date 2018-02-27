@@ -1,0 +1,14 @@
+.gradle
+bin
+docs
+init.d
+lib
+media
+samples
+src
+getting-started.html
+LICENSE
+NOTICE
+demos/.gradle
+# Don't ignore demos folder! Scripts inside
+!demos
