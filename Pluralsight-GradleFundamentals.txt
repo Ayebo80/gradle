@@ -1,0 +1,294 @@
+https://stackoverflow.com/questions/5991194/gradle-proxy-configuration
+C:\Users\maurerpa\.gradle\gradle.properties
+systemProp.http.proxyHost=137.250.203.140
+systemProp.http.proxyPort=8080
+systemProp.https.proxyHost=137.250.203.140
+systemProp.https.proxyPort=8080
+
+1) Introduction
+
+3. Installing Gradle
++ http://gradle.org
+# Download gradle-4.5.1-all.zip & Unzip to E:/IT/gradle
+
+# junction: Link from Virtual Dir to Physical Dir
+CMD: cd E:/IT
+junction gradle gradle-4.5.1\
+#MELDUNG: Created: E:\IT\gradle  & Targetted at: E:\IT\gradle-4.5.1\
+
+#This PC->Properties->Advanced System Settings->Environment Variables...->User variables for ...->
+#Insert in front of Path: E:\IT\gradle\bin;
+
+#Restart CMD: gradle --help
+#########################################################
++ Using gvm (Groovy enVironment Manager) http://gvmtool.net/ 
+	=> HARD to run on WINDOWS, use on LINUX only
+1. Get from gvmtool.net
+2. Download with: curl -s get.gvmtool.net | bash
+3. Add to the path (source)
+source "home/kevinj/.gvm/bin/gvm-init.sh"
+4. Install Gradle: gvm install gradle
+==========================================================================================
+4. Running Gradle for the First Time
+Gradle Builds
+Gradle has a build file build.gradle
+=> Contains: Tasks(mostly), Plugins & Depedencies
+
+CMD: cd E:\IT\gradle-4.5.1\demos\Simple
+gradle hello	# executes Task hello in file build.gradle
+
+CMD: cd E:\IT\gradle-4.5.1\demos\FirstJava
+gradle tasks	#See all tasks
+gradle build	#Build a JAVA project
+=> Erfolgreicher Build erstelle Folder E:\IT\gradle-4.5.1\demos\FirstJava\build\libs\FirstJava.jar
+
+java -cp build\classes\main\ com.pluralsight.Hello
+=========================================================================================
+5. Introduction to the Gradle Wrapper
+# gradlew => Use same Version of Build-Skript as We used
+
+CMD: cd E:\IT\gradle-4.5.1\demos\FirstJava
+gradle wrapper	#Set up gradle wrapper (gradlew & gradlew.bat)
+gradlew build	#1. Download Version of Gradle, 2. Unzip File, 3. Run Gradle
+=========================================================================================
+2) Basic Gradle Tasks
+
+1. Introduction
+Defining and Using Tasks
+- Task Domain Specific Language (DSL)
+- Task Lifecycle
+- Gradle Properties
+Pluralsight Groovy Fundamentals
+http://www.pluralsight.com/courses/groovy-fundamentals
+
+Lifecycle: 1. Initialization Phase, 2. Configuration Phase, 3. Exeuction Phase
+Properties: Group => during Phase 2
+Actions: First & Last Action
+Dependencies
+
+==========================================================================================
+2. Writing Simple Tasks
+gradle tasks --all
+
+==========================================================================================
+3. Running Tasks
+==========================================================================================
+4. Task Phases
+==========================================================================================
+5. Task Dependencies
+Task5.doFirst => Task5.doLast => Task6.doFirst => Task6.doLast
+==========================================================================================
+6. Setting Properties on Tasks
+def projectVersion ="2.0"
+$projectVersion
+==========================================================================================
+3) Task Dependencies
+
+1. Task Dependencies
+2. Other Dependencies
+!!! mustRunAfter & shouldRunAfter ONLY execute 2 Tasks if you run 2 Tasks => gradle -q task1 task2
+mustRunAfter
++ If 2 tasks execute 1 MUST run after the other
+shouldRunAfter
++ If 2 tasks execute 1 SHOULD run after the other
++ This IGNORES Circular Dependencies (taskB.mustRunAfter taskB)
+finalizedBy (2.6+)
++ INVERTED dependency
+3. Using finalizedBy
+flywaydb.org => database migration tool
+==========================================================================================
+4) Typed Tasks
+1. Introduction to Typed Tasks
+Ad-hoc Tasks
+- task Task1
+- task Task2 << {}
+- task Task3 {}
+
+Typed Tasks
+- Suppose we want something more complex
+- Copy Files Task
+- Zipping Files Task
+- Would like this to be re-useable
+- Enter typed tasks
+What Build-in Task Types Are There?
+https://docs.gradle.org/current/dsl
+
+2. Using the Copy Task
+# Common Mistake => Used Komma, means treat entire text (from first ' to second ') as a file name
+  exclude 'IMG_0052.JPG, IMG_0054.JPG'
+
+3. Using the Copy Task to Substitute Text
+// Usefull for seting up config files on different stages
+  expand (
+    // ToBeReplaced:ReplaceBy
+    [resourceRefName: 'jdbc/JacketDB']
+  )
+===========================================================================================
+5) Building a Java Project
+
+1. Introduction to the Java Plugin
+Adds Many Tasks
++ build
++ clean
++ javadoc
+
+Supports Standard Layout (same like Maven)
++ src/main/java
++ src/main/resources
+OR
++ src/test/java
++ src/test/resources
+
+SourceSets
+If you have a different convention
++ can configure the layout using the source set
+
+Configure the Layout
+sourceSets {
+	main {
+		java {
+			srcDir 'src/java'
+		}
+		resources {
+			srcDir 'src/resources'
+		}
+	}
+}
+
+Basic Single Project Build
++ build.gradle file
+   - add the Java plugin
++ Create source directories and add sources
+
+2. Writing Your First Java Build
+CMD: cd E:\IT\gradle-4.5.1\demos\jacket\Repository
+# Lists tasks apply plugin: 'java' added
+gradle taks		# Displays the tasks runnable from project ':Repository'
+# Call the build task
+gradle build		# Assembles and tests this project.
+# Use version = '1.0.SNAPSHOT' to name or file
+
+3. Details of the Java Plugin
+https://docs.gradle.org/current/userguide/java_plugin.html
+
+gradle clean		# Deletes the build directory
+gradle compileJava		# 
+
+gradle clean		# Deletes the build directory
+gradle classes		# Assembles main classes.
+# classes = compileJava & proccesResources
+
+jar			# Assembles a jar archive containing the main classes.
+assemble			# Assembles the outputs of this project.
+
+4. Using the gradle daemon (MUCH QUICKER, RECOMMENDED PRACTICE)
+gradle clean
+gradle build
+# Each time we do this gradle has to re-launch a Java VM to run the build
+# Daemon: re-use an allready existing Java VM to speed up (good for big projects)
+gradle --daemon clean
+
+RECOMMENDED WAY to use Daemon:
+C:\Users\maurerpa\.gradle\gradle.properties
+=> org.gradle.daemon=true
+
+# Turn Daemon off:
+gradle --no-daemon clean build
+
+5. Writing a Multi-project Build (E:\IT\gradle-4.5.1\demos\jacket\JacketService)
+Multi-project Builds
++ Add top level seetings.gradle
+   - List all projects in the build
++ Add top level build.gradle #Configures all projects
+   - defines project wide build functionality
+
+cd E:\IT\gradle\demos\jacket\JacketService
+gradle clean build
+
+6. Bringing It All Together - Building a Project
+Gradle Build From Scratch
++ Start with an existing Java project
+- Simple existing application
+- Has a non-gradle structure so ...
+- ... will need source sets
+- basic dependency managment
+- basic testing
+
+# Create a Wrapper EXE
+cd E:\IT\gradle\demos\SecurityTools
+gradle wrapper
+gradlew build
+
+# Test classes build for me:
+E:\IT\gradle-4.5.1\demos\SecurityTools\build\classes\java\test\com\pluralsight\security
+# Graphics for Tests (% OK/NOK)
+E:\IT\gradle-4.5.1\demos\SecurityTools\build\reports\tests\test\index.html
+
+E:\IT\gradle-4.5.1\demos\SecurityTools\build.gradle:
+apply plugin: 'application'
+mainClassName = 'com.pluralsight.security.Hash'
+
+gradle tasks
+Application tasks
+------------------------
+installApp - Installs the project as a JVM application along with libs and OS specific scripts.
+=> Build a JAR file, which we will use to install the application
+run - Runs this project as a JVM application
+
+#run the com.pluralsight.security.Hash application -f: Input File, -d: Futput file
+gradle run -Pargs="-f build.gradle -d build.hash"
+
+6) Dependencies
+1. Introduction to Repositories
+Your Project Has Dependencies
++ Other projects #ProjectA will build a JAR file, you need to include that JAR file in ProjectB
++ External libraries #Out on web or local share
++ Internal libraries #Company owned libraries (e.g. Maven Repository)
+
+Can Have Many Configurations
++ Dependency on JUnit, only want to use JUnit when i build+run testcode, and not when run+compile App
++ Java plugin introduces 4 Configurations:
+- compile
+- runtime
+- testCompile
+- testRuntime
+
+Transitive Dependencies
++ Some dependencies(JAR file) will depend on other libraries(other JAR files)
+- These are 'transitive dependencies'
+
+Listing Dependencies	# -q: quiet
+gradle -q dependencies
+gradle -q dependencies -configuration compile
+
+E:\IT\gradle-4.5.1\demos\jacket
+gradlew tasks
+gradlew -q dependencies
+
+E:\IT\gradle-4.5.1\demos\jacket\JacketWeb
+gradle -q dependencies
+
+2. Using Repositories
+Repositories - Maven local/custom:
+repositories {
+	mavenLocal()
+}
+
+repositories {
+	maven {
+		url "http://repo.mycompany.com/maven2"
+	}
+}
+
+E:\IT\gradle-4.5.1\demos\SecurityTools
+build.gradle
+mvnrepository.com/artifact/log4j/log4j/1.2.17	=> Tab "Gradle"
+mvnrepository.com/artifact/junit/junit/4.12		=> Tab "Gradle"
+
+# JARs are saved localy in cache, so other Projects also do NOT have to download them
+E:\IT\gradle-4.5.1\demos\SecurityTools
+gradle clean build	#Will download JAR files it needs
+
+E:\IT\gradle-4.5.1\demos\jacket
+gradlew clean build	#Will download JAR files it needs 
+

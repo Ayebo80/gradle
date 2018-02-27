@@ -1,0 +1,29 @@
+// Re-use this Specification (def) in many functions (with)
+def contentSpec = copySpec {
+  exclude 'IMG_0052.JPG', 'IMG_0054.JPG'
+  // use Groovy-Code instead writing a list of all files to exclude
+  // exclude (it.file.name.startsWith('IMG'))
+  from 'src'
+}
+
+task copyImages2 (type: Copy){
+  with contentSpec
+  into 'dest'
+}
+
+task copyImages (type: Copy){
+  exclude 'IMG_0052.JPG', 'IMG_0054.JPG'
+  from 'src'
+  into 'dest'
+}
+
+task copyConfig (type: Copy) {
+  include 'web.xml'
+  from 'src'
+  into 'config'
+  // Usefull for seting up config files on different stages
+  expand (
+	// ToBeReplaced:ReplaceBy
+    [resourceRefName: 'jdbc/JacketDB']
+  )
+}
