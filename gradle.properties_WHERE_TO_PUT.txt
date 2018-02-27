@@ -1,0 +1,1 @@
+C:\Users\maurerpa\.gradle\gradle.properties
