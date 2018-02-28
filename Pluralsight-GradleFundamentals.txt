@@ -238,6 +238,7 @@ run - Runs this project as a JVM application
 #run the com.pluralsight.security.Hash application -f: Input File, -d: Futput file
 gradle run -Pargs="-f build.gradle -d build.hash"
 
+===========================================================================================
 6) Dependencies
 1. Introduction to Repositories
 Your Project Has Dependencies
@@ -292,3 +293,126 @@ gradle clean build	#Will download JAR files it needs
 E:\IT\gradle-4.5.1\demos\jacket
 gradlew clean build	#Will download JAR files it needs 
 
+3. Caching Dependencies
+Gradle Cache
+Modules are cached
++ File based
++ Meta data and files stored separately
++ Repository caches are independent
+Dependencies can be refreshed
++ --refresh-dedpendencies flag
++ Will check if it needs to re-download
+Can safely delete cache files
+
+WINDOWS: C:\Users\maurerpa\.gradle\caches
+C:\Users\maurerpa\.gradle\caches\modules-2\files-2.1\junit\junit\4.12\2973d150c0dc1fefe998f834810d68f278ea58ec\junit-4.12.jar
+
+===========================================================================================
+7) Testing
+1. Introduction
+
+# gradle build: tests will run as part of the build
+Source Set
++ Looks for unit tests in src/test/java #DEFAULT FOLDER
++ Outputs to build/classes/test
++ Reports to build/reports/test
+
+2. Running Tests
+E:\IT\gradle\demos\SecurityTools
+gradle tasks
+# Runs the unit tests.
+gradle test
+# Change a unit test to FAIL
+E:\IT\gradle\demos\SecurityTools\test\src\com\pluralsight\security\TestCreateStreams.java
+=> change assertNotSame to assertSame in testWhenInputFileDoesExist
+# Check if displayed as FAILED in index.html
+E:\IT\gradle\demos\SecurityTools\build\reports\tests\test\index.hmtl
+
+3. Using Filters to Select Tests (to run a Sub-Set of our Tests)
+Filtering
+E:\IT\gradle-4.5.1\demos\SecurityTools\build.gradle
+test {
+	filter {
+		includeTestsMatching '*testWhenInputFileDoesExist'
+
+	}
+}
+
+task singleTest (type: Test){
+	dependsOn testClasses
+	filter {
+		includeTestsMatching 'com.pluralsight.security.TestCreateStreams.testWhenInputFileDoesExist'
+	}
+}
+
+E:\IT\gradle-4.5.1\demos\SecurityTools\
+gradle clean test
+# Check if displayed in index.html
+E:\IT\gradle\demos\SecurityTools\build\reports\tests\test\index.hmtl
+gradle singleTest
+# Check if displayed in index.html
+E:\IT\gradle\demos\SecurityTools\build\reports\tests\singleTest\index.hmtl
+
+# Use Filter in CMD:
+gradle test --tests *shouldCreateASession
+gradle test --tests *testWhenInputFileDoesExist
+
+4. Adding Other Test Types to Your Build
++ Integration tests for example?
++ Can use gradle-testsets-plugin
++ https://github.com/unbroken-dome/gradle-testsets-plugin
+
+gradle-testsets-plugin
++ Add the plugin to build-file
+	+ add a testSet (name of testSet: integrationtests)
+	+ set other configuration parameters (dependsOn etc...) [clean depends on this, check depends on this testSet, same like it depends on tests ]
+	+ set output reports directory [1 report instead of 2]
+# Integration-Test: Read/Write Data from/to that Database
+E:\IT\gradle-4.5.1\demos\jacket\build.gradle
+E:\IT\gradle-4.5.1\demos\jacket\JacketWeb\build.gradle
+=> change to:	classpath("io.spring.gradle:dependency-management-plugin:1.0.4.RELEASE")
+E:\IT\gradle-4.5.1\demos\jacket
+gradle integrationTest
+E:\IT\gradle-4.5.1\demos\jacket\JacketRepository\build\reports\integrationTest\index.hmtl
+
+E:\IT\gradle-4.5.1\demos\jacket\build.gradle
+#build depends on check, check depends on integrationTest
+check.dependsOn integrationTest
+#Run UnitTests (lots quicker) BEFORE IntegrationTests
+integrationTest.mustRunAfter test
+
+===========================================================================================
+8) Gradle Wrapper
+1. Introduction to the Gradle Wrapper
+2. The Wrapper in Detail
+What is the Wrapper
++ Provides a specific version of Gradle to the project => never worry about changes across versions
++ gradlew.bat on Windows
++ gradle shell script on *nix
+# Check if it uses the Version of the Wrapper you asked for
+Uses Wrapper Task
++ Stadard task
+	- always available (in build-file)
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.6'
+}
+
+Once you run the Wrapper Task it Installs Bootstrap Files
+myproject/
+	gradlew
+	gradlew.bat
+	gradle/wrapper/
+		gradle-wrapper.jar
+		gradle-wrapper.properties
+
+Running the Wrapper
++ Check if specific version of Gradle is installed -> If NOT, download it
+
+myproject/	gradle/wrapper/gradle-wrapper.properties
+E:\IT\gradle-4.5.1\demos\jacket\
+gradlew build
+
+BIS 03:21
+
+3. Using Team City and the Gradle Wrapper Together
