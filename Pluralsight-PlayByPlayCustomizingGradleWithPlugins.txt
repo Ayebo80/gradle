@@ -15,7 +15,7 @@ First build JAVA with make, then came Ant (Ant-Tasks)
 
 Ant's Plugin Architecture
 Abstraction (Tasks encapsulate a chunk of parameterized imperative code) => its like a Method-Call
-Distribution ("I heard you like yars") => Put a JAR file somewhere and Task will be available
+Distribution ("I heard you like jars") => Put a JAR file somewhere and Task will be available
 
 Maven's Plugin Architecture
 Abstractoin (Execute imperative code within Maven's opinionated build lifecycle) => messy if expended
@@ -35,17 +35,32 @@ Distribution (Plugin portal and Maven repositories)
 2. Plugins All Around
 Gradle's Build Worldview
 + Builds are complex
-+ Builds are code 	=> !!! Its a SW-Development, it needs it's own GIT Repository
++ Builds are code 	=> !!! Its like SW-Development, it needs it's own GIT Repository
 + You should write code => Gradle is a set of APIs
-
-
-
-
++ Asciidoctor Plugin 
+=> Open Source Extension, Wraps Asciidoctor, Documents, Presentations, Git Plugin
+(Asciidoc is lightweight markup format Plugin)
 
 3) Putting Imperative Logic in Its Place
 1. Introduction
+Summary
++ The Asciidoctor plugin
+New SourceSet: src/asciidoc (*.adoc,*.asciidoc)
+asciidoctor task
+Asciidoctor dependencies
++ Asciidoctor Presentations
+Sources are in Asciidoc
+Target is the web
+Controllable like code
+Complex Git configuration
+No native less support
++ Coordinate multiple plugins
++ Interact with GITHub (git submoduls)
 
 2. Our Demo Project and the Problems Our Plugin Will Solve
+
+
+
 
 3. Moving Boilerplate Configuration to a Custom Task
 
