@@ -1,0 +1,17 @@
+A Gentle Introduction to Gradle
+Why Another Build Tool?
++ Pressure for Customization
++ Continuous Deployment -> Automated Deployment to Production
+
+declarative / imperative
+Ant: alots of lines => imperative
+Maven: inside maven pom file declare parameters about the build => declarative
+
+conventions / adaptability
+we like conventions, but we also like adapt/extend that tool to build new conventions
+
+tasks (much like a Ant target)
+
+
+plugins (25:30)
+

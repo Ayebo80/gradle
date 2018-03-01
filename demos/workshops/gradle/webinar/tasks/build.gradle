@@ -1,0 +1,35 @@
+/* 
+ * - A task is an object
+ *   - A task has an API
+ * - A task has a list of activities
+ * - Tasks form a Directed Acyclic Graph
+ * - A Gradle build is...a programm
+ */
+
+task hello
+task world
+
+// CamelCase: gradle hW = gradle helloWorld
+task helloWorld {
+	dependsOn = [ world, hello ]
+}
+
+def whatsUp() {
+	println "Hey, glad you're learning about Gradle today"
+}
+
+world {
+	dependsOn << hello
+	// IMPERATIVE!!!!
+	doLast {
+		println "world"
+	}
+}
+
+// Closure 
+hello{
+	doLast {
+		println "hello, "
+	}
+}
+
