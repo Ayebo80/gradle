@@ -1,0 +1,70 @@
+1) Which Plugin Architecture
+1. Introduction
+Write a customPlugin
++ The Nature of Builds
++ Plugin Architectures
++ Gradle's Plugin Ecosystem
++ The Enemy: Imperative Logic
++ Domain Modelling
++ The Gradle Plugin API
++ Packaging and Distributing Our Plugin
+
+2) Gradle Plugin Architecture
+1. Which Plugin Architecture
+First build JAVA with make, then came Ant (Ant-Tasks)
+
+Ant's Plugin Architecture
+Abstraction (Tasks encapsulate a chunk of parameterized imperative code) => its like a Method-Call
+Distribution ("I heard you like yars") => Put a JAR file somewhere and Task will be available
+
+Maven's Plugin Architecture
+Abstractoin (Execute imperative code within Maven's opinionated build lifecycle) => messy if expended
+Distribution (Maven repositories) => superior to Ant, Plugins are just a kind of JAR that Maven can distribute
+
+Gradle's Plugin Architecture
+Full Customization (Change any part of the DSL and object model) 
+=> Gradle is an API for building SW, Gradle Plugins are able to modify/interact with that API
+=> we are able to change any part of the Gradle DSL/ObjectModel through a Plugin
+Language (Extend Gradle's built-in DSL for your own domain)
+=> Groovy, JAVA usw
+=> Language relates to Domain Language
+Distribution (Plugin portal and Maven repositories)
+=> Fully compatible: Publish Gradle JAR to a Maven Repository & acces it from there
+=> Very easy to publish your Plugin in the Plugin Portal
+
+2. Plugins All Around
+Gradle's Build Worldview
++ Builds are complex
++ Builds are code 	=> !!! Its a SW-Development, it needs it's own GIT Repository
++ You should write code => Gradle is a set of APIs
+
+
+
+
+
+3) Putting Imperative Logic in Its Place
+1. Introduction
+
+2. Our Demo Project and the Problems Our Plugin Will Solve
+
+3. Moving Boilerplate Configuration to a Custom Task
+
+4) Speaking Your Language
+1. Adding Domain-specific Language
+
+5) The Plugin API
+1. The Plugin API
+
+6) Extending the Domain Model
+1. Extending the Domain Model
+
+7) Packaging the Plugin
+1. Creating an Independent Plugin
+
+2. Cleaning up the Plugin
+
+8) Publishing to the Plugin Portal
+1. Deploying the Plugin
+
+9) Conclusion
+1. Conclusion
