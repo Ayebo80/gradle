@@ -14,4 +14,43 @@ tasks (much like a Ant target)
 
 
 plugins (25:30)
+Chapter 22. Standard Gradle plugins
+Language Plugins
+java		Adds Java compilation, testing and bundling capabilities to a project
+groovy/scala...
+22.4 Software development plugins
+eclipse		making it possible to import the project into Eclipse
+findbugs		***
+checkstyle		***
+codenarc		***
 
+Standard Maven Directory Format (30:45):
+--- src
+	---- main
+		---- java
+
+gradle build
+--- build
+	--- classes
+		--- main
+			--- org
+				--- gradle
+					--- poetry
+						--- Poetry.class	*** Our Classes ***
+	--- dependency-cache
+	--- libs
+		--- poetry.jar	*** JAR file ***
+	--- reports			*** Tried to run Tests, but did not find ***
+		--- tests
+			--- base-style.css
+			--- css3-pie-1.0beta3.htc
+			--- index.html
+			--- report.js
+			--- style.css
+	--- test-results
+	--- tmp
+		--- jar
+			--- MANIFEST.MF
+		--- test
+--- build.gradle
+--- src
