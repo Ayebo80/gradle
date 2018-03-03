@@ -1,3 +1,8 @@
+#########################################################################################
+# Thanks for that, great intro, in multiproject, had to change line 34 to: 		#
+# classpath = sourceSets.main.runtimeClasspath or it did;nt work, (using gradle 2.3)?	#
+#########################################################################################
+
 A Gentle Introduction to Gradle
 Why Another Build Tool?
 + Pressure for Customization
@@ -54,3 +59,20 @@ gradle build
 		--- test
 --- build.gradle
 --- src
+
+### JavaExec defines JVM-Parameters
+// task with type: tasks are objects and have an API
+// task can inherit von task type JavaExec
+task caesar(type: JavaExec) {
+  main = 'org.gradle.poetry.Poetry'
+  classpath = sourceSets.main.runtimeClasspath
+  //JavaExec: JVM-Parameters: classpath,input/output-stream,heap
+}
+
+
+
+
+
+
+Multi-Project-Gradle-Build
+

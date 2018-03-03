@@ -1,25 +1,17 @@
-/*
-	- Compile the Java
-	- Run tests
-	- Copy static resources
-	- Format test results
-	- build a JAR
-	- top-level task that does all of these things
-*/
-
 apply plugin: 'java'
 
 repositories {
+	//feature of Gradle
   mavenCentral()
+  //mavenRepo url: [...] #lokal maven repositories
 }
 
 dependencies {
   compile 'commons-codec:commons-codec:1.6'
 }
 
-// task with type: tasks are objects and have an API
-// task can inherit von task type JavaExec
 task caesar(type: JavaExec) {
   main = 'org.gradle.poetry.Poetry'
-  classpath = runtimeClasspath
+  classpath = sourceSets.main.runtimeClasspath
+  //JavaExec: JVM-Parameters: classpath,input/output-stream,heap
 }
